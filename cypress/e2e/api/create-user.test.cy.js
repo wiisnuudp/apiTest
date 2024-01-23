@@ -7,7 +7,7 @@ describe('Create New User', () => {
             "job": "SQA"
         }
         cy.request('POST', 'https://reqres.in/api/users', user).then((response) => {
-            expect(user.name, user.job).contain('wisnu', 'SQA')
+            expect(response.body.name).equal(user.name)
         })
     });
 });

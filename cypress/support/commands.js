@@ -23,3 +23,21 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('loginViaAPI', (
+    email = Cypress.env('userEmail'),
+    password = Cypress.env('userPassword')
+) => {
+    cy.request({
+        method: 'GET',
+        url: 'https://the-internet.herokuapp.com/basic_auth',
+        auth: {
+            username: email,
+            password: password
+        },  
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+
+        cy.get('p').should('contain.text', 'Congratulations! You must have the proper credentials.')
+    })
+})
